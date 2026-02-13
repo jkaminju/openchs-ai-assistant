@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenCHS AI Assistant - Bitz | Child Helpline 116</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: hsl(210 40% 98%);
+    --fg: hsl(220 25% 15%);
+    --card: hsl(0 0% 100%);
+    --muted: hsl(210 20% 94%);
+    --muted-fg: hsl(220 10% 44%);
+    --border: hsl(210 18% 88%);
+    --primary: hsl(210 80% 42%);
+    --primary-light: hsl(210 80% 95%);
+    --secondary: hsl(280 60% 55%);
+    --secondary-light: hsl(280 60% 95%);
+    --accent-yellow: hsl(45 100% 55%);
+    --accent-orange: hsl(25 95% 55%);
+    --accent-green: hsl(150 60% 42%);
+    --accent-pink: hsl(340 70% 55%);
+    --success: hsl(150 60% 38%);
+    --success-light: hsl(150 50% 94%);
+    --warning: hsl(45 93% 40%);
+    --critical: hsl(0 72% 50%);
+    --high-risk: hsl(25 90% 48%);
+    --suggested-bg: hsl(48 96% 89%);
+    --suggested-border: hsl(45 93% 47%);
+    --accepted-bg: hsl(150 50% 92%);
+    --accepted-border: hsl(150 60% 38%);
+    --shadow-sm: 0 2px 8px hsl(210 30% 80% / 0.3);
+    --shadow-md: 0 4px 20px hsl(210 30% 75% / 0.25);
+    --shadow-lg: 0 8px 40px hsl(210 30% 70% / 0.2);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--fg); min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image: 
+      radial-gradient(circle at 10% 20%, hsl(210 80% 95% / 0.5) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, hsl(280 60% 95% / 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(45 100% 97% / 0.3) 0%, transparent 60%);
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: hsl(210 20% 78%); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(210 20% 65%); }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, hsl(210 80% 42%), hsl(280 60% 50%), hsl(340 70% 55%));
+    padding: 0; display: flex; align-items: stretch; justify-content: space-between;
+    box-shadow: 0 4px 20px hsl(210 80% 30% / 0.3);
+    animation: slideDown 0.5s ease-out; color: white; position: relative; overflow: visible;
+    z-index: 1000;
+  }
+  .header::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='4' fill='white' opacity='0.06'/%3E%3Ccircle cx='10' cy='10' r='2' fill='white' opacity='0.04'/%3E%3Ccircle cx='50' cy='15' r='3' fill='white' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 1800px; margin: 0 auto; padding: 12px 24px; position: relative; z-index: 1;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .brand { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; }
+  .brand .silver { color: hsl(0 0% 100% / 0.85); }
+  .brand .accent { color: var(--accent-yellow); }
+  .header-divider { width: 2px; height: 36px; background: hsl(0 0% 100% / 0.25); border-radius: 1px; }
+  .header-title { font-size: 1rem; font-weight: 700; line-height: 1.2; }
+  .header-subtitle { font-size: 0.7rem; opacity: 0.8; font-weight: 500; }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+
+  /* 116 Badge */
+  .helpline-badge {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 18px; border-radius: 50px;
+    background: hsl(0 0% 100% / 0.15); backdrop-filter: blur(10px);
+    border: 1px solid hsl(0 0% 100% / 0.25);
+    animation: fadeIn 0.6s ease-out 0.3s both;
+  }
+  .helpline-phone {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent-yellow); display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; animation: ring 2s ease-in-out infinite;
+    box-shadow: 0 0 12px hsl(45 100% 55% / 0.4);
+  }
+  .helpline-number { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; }
+  .helpline-text { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.85; font-weight: 600; }
+
+  .demo-badge {
+    padding: 6px 14px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    background: hsl(0 0% 100% / 0.15); border: 1px solid hsl(0 0% 100% / 0.25);
+  }
+
+  /* Partnership Info Badges */
+  .info-badge {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: hsl(0 0% 100% / 0.15);
+    backdrop-filter: blur(10px);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid hsl(0 0% 100% / 0.25);
+    cursor: help;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.6s ease-out 0.4s both;
+  }
+
+  .info-badge:hover {
+    background: hsl(0 0% 100% / 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2);
+  }
+
+  .info-badge .badge-icon {
+    font-size: 0.9rem;
+  }
+
+  .info-badge .badge-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Tooltip Styling */
+  .info-tooltip {
+    display: none;
+    position: fixed;
+    top: 65px; /* Below the header */
+    background: white;
+    color: var(--fg);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px hsl(210 30% 20% / 0.35), 0 0 0 1px var(--border);
+    min-width: 300px;
+    z-index: 99999;
+    border: 2px solid var(--primary);
+    animation: tooltipFadeIn 0.3s ease;
+  }
+  
+  /* Arrow pointer for tooltip */
+  .info-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-left: 2px solid var(--primary);
+    border-top: 2px solid var(--primary);
+    transform: rotate(45deg);
+  }
+  
+  /* Position tooltips based on which badge */
+  #countriesBadge:hover .info-tooltip {
+    right: 280px; /* Adjust based on badge position */
+  }
+  
+  #partnersBadge:hover .info-tooltip {
+    right: 120px; /* Adjust based on badge position */
+  }
+
+  @keyframes tooltipFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .info-badge:hover .info-tooltip {
+    display: block;
+  }
+
+  .tooltip-header {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted-fg);
+    font-weight: 800;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--muted);
+  }
+
+  .tooltip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tooltip-item {
+    padding: 10px 12px;
+    background: var(--muted);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Country indicator styling - colored circles with flag colors */
+  .country-indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border: 2px solid white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Fallback: if emoji renders, hide background */
+  .country-indicator:not(:empty) {
+    font-family: 'Segoe UI Emoji', 'Segoe UI Symbol', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+  }
+  
+  .country-name {
+    flex: 1;
+    font-weight: 700;
+    color: var(--fg);
+    font-size: 0.9rem;
+  }
+
+  .tooltip-item:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateX(4px);
+  }
+
+  .partner-detail {
+    padding: 12px;
+    background: var(--muted);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .partner-detail:hover {
+    background: linear-gradient(135deg, var(--muted) 0%, var(--primary-light) 100%);
+    border-color: var(--primary);
+    transform: translateX(4px);
+  }
+
+  .partner-detail strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--fg);
+    margin-bottom: 4px;
+    font-weight: 800;
+  }
+
+  .partner-detail span {
+    font-size: 0.7rem;
+    color: var(--muted-fg);
+    font-weight: 500;
+  }
+
+  /* Responsive - hide on smaller screens */
+  @media (max-width: 1400px) {
+    .info-badge {
+      display: none;
+    }
+  }
+
+  /* Decorative children silhouettes in header */
+  .header-children {
+    position: absolute; bottom: 0; right: 80px; display: flex; gap: 4px; align-items: flex-end; z-index: 0; opacity: 0.12;
+  }
+  .child-silhouette { font-size: 2rem; }
+
+  /* ===== LAYOUT ===== */
+  .main-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 20px; max-width: 1800px; margin: 0 auto;
+    height: calc(100vh - 73px);
+  }
+  @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; height: auto; } }
+
+  .panel {
+    background: var(--card); border-radius: var(--radius); border: 1px solid var(--border);
+    padding: 24px; display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: var(--shadow-md); transition: box-shadow 0.3s;
+  }
+  .panel:hover { box-shadow: var(--shadow-lg); }
+  .panel-left { animation: slideRight 0.5s ease-out 0.1s both; }
+  .panel-right { animation: slideLeft 0.5s ease-out 0.2s both; }
+
+  .panel-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; padding-bottom: 14px; border-bottom: 2px solid hsl(210 20% 94%);
+  }
+  .panel-title {
+    font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 10px;
+    color: var(--fg);
+  }
+  .panel-title-icon {
+    width: 32px; height: 32px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 1rem;
+  }
+  .icon-transcript { background: var(--primary-light); }
+  .icon-form { background: var(--secondary-light); }
+
+  .status-badge {
+    padding: 5px 14px; border-radius: 9999px; font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .badge-demo { background: hsl(45 100% 92%); color: hsl(45 80% 35%); border: 1px solid hsl(45 80% 70%); }
+  .badge-extracted { background: hsl(150 50% 92%); color: hsl(150 60% 30%); border: 1px solid hsl(150 50% 65%); animation: scaleIn 0.3s ease-out; }
+
+  /* ===== SAMPLE SELECTOR ===== */
+  .selector-box {
+    margin-bottom: 14px; padding: 14px; border-radius: 14px;
+    background: linear-gradient(135deg, hsl(210 40% 97%), hsl(280 30% 97%));
+    border: 1px solid var(--border);
+  }
+  .selector-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted-fg); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .selector-select {
+    width: 100%; padding: 11px 14px; background: white;
+    border: 2px solid var(--border); border-radius: 10px; font-size: 0.875rem;
+    color: var(--fg); cursor: pointer; transition: all 0.2s; outline: none;
+    font-family: inherit; font-weight: 600;
+  }
+  .selector-select:hover { border-color: var(--primary); }
+  .selector-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px hsl(210 80% 42% / 0.15); }
+
+  /* ===== AUDIO PLAYER (Phone Dial Look) ===== */
+  .audio-player {
+    margin-bottom: 14px; padding: 16px 20px; border-radius: 14px;
+    background: linear-gradient(135deg, hsl(210 30% 18%), hsl(220 25% 22%));
+    border: 1px solid hsl(210 20% 30%); overflow: hidden; transition: all 0.3s;
+    color: white; position: relative;
+  }
+  .audio-player::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.15), transparent);
+  }
+  .audio-player.hidden { display: none; }
+  .audio-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .play-btn {
+    width: 52px; height: 52px; border-radius: 50%; border: 3px solid hsl(0 0% 100% / 0.2); cursor: pointer;
+    background: linear-gradient(135deg, var(--accent-green), hsl(150 70% 35%));
+    color: white; font-size: 1.2rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 4px 15px hsl(150 60% 30% / 0.4), inset 0 1px 0 hsl(0 0% 100% / 0.2);
+    transition: all 0.2s;
+  }
+  .play-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px hsl(150 60% 30% / 0.5); }
+  .play-btn:active { transform: scale(0.95); }
+  .audio-info { flex: 1; min-width: 0; }
+  .audio-title { font-size: 0.9rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .audio-time { font-size: 0.75rem; opacity: 0.7; font-weight: 500; margin-top: 2px; }
+  .progress-track {
+    width: 100%; height: 6px; background: hsl(0 0% 100% / 0.12); border-radius: 3px;
+    cursor: pointer; overflow: hidden; position: relative;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-green), hsl(150 80% 50%));
+    transition: width 0.1s linear; position: relative;
+  }
+  .progress-fill::after {
+    content: ''; position: absolute; right: -4px; top: -3px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: white; box-shadow: 0 1px 6px hsl(0 0% 0% / 0.3);
+  }
+
+  /* Dial dots decoration */
+  .dial-dots {
+    display: flex; gap: 6px; position: absolute; top: 16px; right: 16px; opacity: 0.15;
+  }
+  .dial-dot {
+    width: 8px; height: 8px; border-radius: 50%; border: 1px solid white;
+  }
+
+  /* ===== TRANSCRIPT (LIGHT & READABLE) ===== */
+  .transcript-box {
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 16px;
+    background: white;
+    border: 2px solid hsl(210 25% 90%); 
+    border-radius: 14px;
+    font-size: 0.85rem; 
+    line-height: 1.7; 
+    color: hsl(220 20% 20%);
+    font-family: 'Inter', sans-serif; 
+    white-space: pre-wrap;
+    margin-bottom: 12px;
+    box-shadow: inset 0 2px 6px hsl(210 20% 90% / 0.5);
+    min-height: 150px;
+    max-height: 300px;
+  }
+  .transcript-box::-webkit-scrollbar-track { background: hsl(210 20% 96%); }
+
+  /* ===== CONTROLS ===== */
+  .controls {
+    display: flex; gap: 12px; padding-top: 14px; border-top: 2px solid hsl(210 20% 94%); flex-shrink: 0;
+  }
+  .btn {
+    padding: 13px 22px; border-radius: 12px; font-size: 0.875rem; font-weight: 700;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    gap: 8px; transition: all 0.2s; font-family: inherit;
+  }
+  .btn-primary {
+    flex: 1; color: white;
+    background: linear-gradient(135deg, var(--primary), hsl(280 60% 50%));
+    box-shadow: 0 4px 15px hsl(210 80% 42% / 0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px hsl(210 80% 42% / 0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-muted {
+    padding: 13px 22px; background: var(--muted); color: var(--muted-fg);
+    border-radius: 12px; font-weight: 700;
+  }
+  .btn-muted:hover { background: hsl(210 14% 88%); }
+  .btn-success {
+    flex: 1; color: white;
+    background: linear-gradient(135deg, var(--accent-green), hsl(150 70% 35%));
+    box-shadow: 0 4px 12px hsl(150 60% 38% / 0.3);
+  }
+  .btn-success:hover { transform: translateY(-2px); }
+
+  /* ===== RISK ALERTS ===== */
+  .risk-alerts { max-height: 220px; overflow-y: auto; margin-bottom: 12px; flex-shrink: 0; }
+  .risk-alert {
+    padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; display: flex; gap: 12px;
+    align-items: flex-start; border-left: 4px solid; animation: slideRight 0.4s ease-out both;
+  }
+  .risk-alert:nth-child(2) { animation-delay: 0.15s; }
+  .risk-alert:nth-child(3) { animation-delay: 0.3s; }
+  .risk-critical { background: hsl(0 85% 97%); border-left-color: var(--critical); }
+  .risk-high { background: hsl(25 90% 96%); border-left-color: var(--high-risk); }
+  .risk-medium { background: hsl(45 93% 95%); border-left-color: var(--warning); }
+  .risk-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .risk-title { font-size: 0.85rem; font-weight: 800; }
+  .risk-title.critical { color: var(--critical); }
+  .risk-title.high { color: var(--high-risk); }
+  .risk-title.medium { color: var(--warning); }
+  .risk-body { font-size: 0.75rem; color: hsl(220 10% 38%); margin-top: 3px; line-height: 1.5; }
+  .risk-quote { font-size: 0.75rem; font-style: italic; color: hsl(220 10% 52%); margin-top: 4px; }
+
+  /* ===== STATS ===== */
+  /* ===== ANALYTICS DASHBOARD ===== */
+  .analytics-dashboard {
+    margin-top: 12px;
+    padding: 10px;
+    background: linear-gradient(135deg, hsl(210 40% 98%), hsl(280 30% 98%));
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    animation: slideUp 0.5s ease-out;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+  .analytics-dashboard.hidden { display: none; }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .dashboard-content {
+    /* Compact left panel version */
+  }
+  
+  .dashboard-header {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+  
+  .dashboard-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .dashboard-card {
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+  }
+  
+  .dashboard-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .card-title {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  
+  /* Quick Stats Card */
+  .quick-stats {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--muted);
+    border-radius: 6px;
+    animation: scaleIn 0.4s ease-out both;
+  }
+  
+  .stat-item:nth-child(2) { animation-delay: 0.1s; }
+  .stat-item:nth-child(3) { animation-delay: 0.2s; }
+  
+  .stat-item .stat-icon {
+    font-size: 1.2rem;
+  }
+  
+  .stat-content {
+    flex: 1;
+  }
+  
+  .stat-item .stat-value {
+    font-size: 1.1rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  
+  .stat-item .stat-label {
+    font-size: 0.55rem;
+    color: var(--muted-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  
+  /* Risk Gauge Card */
+  .risk-gauge-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .gauge-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  
+  .risk-level-badge {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  .risk-level-badge.low {
+    background: var(--success-light);
+    color: var(--success);
+  }
+  
+  .risk-level-badge.medium {
+    background: hsl(45 100% 92%);
+    color: var(--warning);
+  }
+  
+  .risk-level-badge.high {
+    background: hsl(25 95% 92%);
+    color: var(--high-risk);
+  }
+  
+  .risk-level-badge.critical {
+    background: hsl(0 72% 92%);
+    color: var(--critical);
+  }
+  
+  /* Risk Categories Card */
+  .risk-categories {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .category-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .category-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 70px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  
+  .category-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  
+  .critical-dot { background: var(--critical); }
+  .high-dot { background: var(--high-risk); }
+  .medium-dot { background: var(--warning); }
+  
+  .category-bar {
+    flex: 1;
+    height: 20px;
+    background: var(--muted);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .category-fill {
+    height: 100%;
+    transition: width 1s ease-out;
+    border-radius: 12px;
+  }
+  
+  .critical-fill { background: linear-gradient(90deg, var(--critical), hsl(0 72% 45%)); }
+  .high-fill { background: linear-gradient(90deg, var(--high-risk), hsl(25 90% 42%)); }
+  .medium-fill { background: linear-gradient(90deg, var(--warning), hsl(45 93% 35%)); }
+  
+  .category-count {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+  
+  /* Risk Indicators List */
+  .risk-indicators-card {
+    grid-column: span 2;
+  }
+  
+  .risk-indicators-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .risk-indicator-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--muted);
+    border-radius: 10px;
+    border-left: 4px solid;
+    animation: slideInLeft 0.4s ease-out both;
+  }
+  
+  .risk-indicator-item:nth-child(2) { animation-delay: 0.1s; }
+  .risk-indicator-item:nth-child(3) { animation-delay: 0.2s; }
+  .risk-indicator-item:nth-child(4) { animation-delay: 0.3s; }
+  
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  
+  .risk-indicator-item.critical { border-left-color: var(--critical); }
+  .risk-indicator-item.high { border-left-color: var(--high-risk); }
+  .risk-indicator-item.medium { border-left-color: var(--warning); }
+  
+  .risk-indicator-icon {
+    font-size: 1.5rem;
+  }
+  
+  .risk-indicator-content {
+    flex: 1;
+  }
+  
+  .risk-indicator-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--fg);
+    margin-bottom: 4px;
+  }
+  
+  .risk-indicator-action {
+    font-size: 0.7rem;
+    color: var(--muted-fg);
+  }
+  
+  .risk-indicator-confidence {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .confidence-bar-mini {
+    width: 80px;
+    height: 6px;
+    background: var(--muted);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .confidence-fill-mini {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 3px;
+    transition: width 0.8s ease-out;
+  }
+  
+  .confidence-percent {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--fg);
+  }
+  
+  .no-risks {
+    text-align: center;
+    padding: 20px;
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  
+  /* Confidence Chart Card */
+  .confidence-chart-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .confidence-chart-card canvas {
+    max-height: 200px;
+  }
+
+  /* ===== FORM ===== */
+  .form-area { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding-right: 4px; 
+    min-height: 400px;
+    /* No max-height - let it grow! */
+  }
+  .form-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;
+    color: var(--muted-fg); font-size: 0.9rem; gap: 12px;
+  }
+  .form-placeholder-children { font-size: 3rem; opacity: 0.3; }
+  .form-category-title {
+    font-size: 0.75rem; font-weight: 800; color: var(--secondary); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 2px solid hsl(280 30% 92%);
+  }
+  .form-group { margin-bottom: 20px; }
+  .field { margin-bottom: 14px; position: relative; animation: slideUp 0.3s ease-out both; }
+  .field-label {
+    display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted-fg);
+    margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .field-label .required { color: var(--critical); margin-left: 2px; }
+  .field-input-wrap { position: relative; }
+  .field-input, .field-select, .field-textarea {
+    width: 100%; padding: 11px 14px; border-radius: 10px; font-size: 0.875rem;
+    border: 2px solid var(--border); background: white;
+    color: var(--fg); outline: none; transition: all 0.2s; font-family: inherit; font-weight: 500;
+  }
+  .field-input:focus, .field-select:focus, .field-textarea:focus {
+    border-color: var(--primary); box-shadow: 0 0 0 3px hsl(210 80% 42% / 0.12);
+  }
+  .field-input.suggested, .field-select.suggested, .field-textarea.suggested {
+    background: var(--suggested-bg); border-color: var(--suggested-border); color: var(--fg);
+  }
+  .field-input.accepted, .field-select.accepted, .field-textarea.accepted {
+    background: var(--accepted-bg); border-color: var(--accepted-border); color: var(--fg);
+  }
+  .field-textarea { min-height: 70px; resize: vertical; }
+
+  .evidence-icon {
+    position: absolute; right: 10px; top: 11px; cursor: help; font-size: 1rem; z-index: 10;
+  }
+  .evidence-tooltip {
+    position: absolute; right: 0; top: 42px; z-index: 50; padding: 14px;
+    border-radius: 10px; font-size: 0.75rem; width: 260px;
+    border: 1px solid var(--border); background: white;
+    box-shadow: var(--shadow-lg); animation: fadeIn 0.2s ease-out;
+    display: none;
+  }
+  .evidence-icon:hover + .evidence-tooltip,
+  .evidence-tooltip:hover { display: block; }
+  .evidence-tooltip strong { color: var(--fg); }
+  .evidence-tooltip p { color: var(--muted-fg); margin-top: 4px; line-height: 1.5; }
+
+  /* ===== SPINNER ===== */
+  .spinner-wrap {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 48px 0; color: var(--muted-fg);
+  }
+  .spinner {
+    width: 48px; height: 48px; border: 4px solid var(--muted);
+    border-top-color: var(--primary); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin-bottom: 16px;
+  }
+
+  .action-buttons { display: none; gap: 12px; padding-top: 14px; border-top: 2px solid hsl(210 20% 94%); flex-shrink: 0; }
+  .action-buttons.visible { display: flex; }
+
+  /* ===== FOOTER STRIP ===== */
+  .footer-strip {
+    text-align: center; padding: 8px; font-size: 0.65rem; color: var(--muted-fg);
+    font-weight: 600; letter-spacing: 0.03em;
+  }
+  .footer-strip span { color: var(--accent-pink); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes slideLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes ring {
+    0%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(8deg); }
+    40% { transform: rotate(-5deg); }
+    50%, 100% { transform: rotate(0deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="brand"><span class="silver">bi</span><span class="accent">t</span><span class="silver">z</span></div>
+      <div class="header-divider"></div>
+      <div>
+        <div class="header-title">OpenCHS AI Assistant</div>
+        <div class="header-subtitle">Intelligent Call Documentation for GBV &amp; Child Protection</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="helpline-badge">
+        <div class="helpline-phone">📞</div>
+        <div>
+          <div class="helpline-number">116</div>
+          <div class="helpline-text">Child Helpline</div>
+        </div>
+      </div>
+      
+      <!-- Deployment & Partners Badges -->
+      <div class="info-badge" id="countriesBadge">
+        <span class="badge-icon">🌍</span>
+        <span class="badge-text">5 Countries</span>
+        <div class="info-tooltip countries-tooltip">
+          <div class="tooltip-header">Active Deployments</div>
+          <div class="tooltip-list">
+            <div class="tooltip-item">
+              <span class="country-indicator" style="background: linear-gradient(135deg, #000000, #006B3F, #EF2B2D);">🇰🇪</span>
+              <span class="country-name">Kenya</span>
+            </div>
+            <div class="tooltip-item">
+              <span class="country-indicator" style="background: linear-gradient(135deg, #000000, #FCDC04, #D90000);">🇺🇬</span>
+              <span class="country-name">Uganda</span>
+            </div>
+            <div class="tooltip-item">
+              <span class="country-indicator" style="background: linear-gradient(135deg, #1EB53A, #FCD116, #00A3DD);">🇹🇿</span>
+              <span class="country-name">Tanzania</span>
+            </div>
+            <div class="tooltip-item">
+              <span class="country-indicator" style="background: linear-gradient(135deg, #00209F, #FFFFFF, #009543);">🇱🇸</span>
+              <span class="country-name">Lesotho</span>
+            </div>
+            <div class="tooltip-item">
+              <span class="country-indicator" style="background: linear-gradient(135deg, #4189DD, #FFFFFF);">🇸🇴</span>
+              <span class="country-name">Somalia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-badge" id="partnersBadge">
+        <span class="badge-icon">🤝</span>
+        <span class="badge-text">4 Partners</span>
+        <div class="info-tooltip partners-tooltip">
+          <div class="tooltip-header">Strategic Partners</div>
+          <div class="tooltip-list">
+            <div class="partner-detail">
+              <strong>UNICEF ESARO</strong>
+              <span>Regional Implementation</span>
+            </div>
+            <div class="partner-detail">
+              <strong>UNICEF Venture Fund</strong>
+              <span>Innovation Support</span>
+            </div>
+            <div class="partner-detail">
+              <strong>UNFPA</strong>
+              <span>GBV Prevention</span>
+            </div>
+            <div class="partner-detail">
+              <strong>GIZ</strong>
+              <span>Development Cooperation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-badge">🚀 MVP Demo</div>
+    </div>
+  </div>
+  <div class="header-children">
+    <span class="child-silhouette">🧒</span>
+    <span class="child-silhouette">👧</span>
+    <span class="child-silhouette">👦</span>
+    <span class="child-silhouette">👶</span>
+  </div>
+</header>
+
+<!-- Main -->
+<div class="main-grid">
+  <!-- Left Panel -->
+  <div class="panel panel-left">
+    <div class="panel-header">
+      <h2 class="panel-title">
+        <span class="panel-title-icon icon-transcript">📞</span> Live Call Transcript
+      </h2>
+      <span class="status-badge badge-demo">Demo Mode</span>
+    </div>
+    <div class="selector-box">
+      <label class="selector-label">Select Sample Call:</label>
+      <select id="sampleSelector" class="selector-select">
+        <option value="">-- Choose a sample --</option>
+      </select>
+    </div>
+    <div id="audioPlayer" class="audio-player hidden">
+      <div class="dial-dots">
+        <span class="dial-dot"></span><span class="dial-dot"></span><span class="dial-dot"></span>
+      </div>
+      <div class="audio-controls">
+        <button id="playBtn" class="play-btn">▶</button>
+        <div class="audio-info">
+          <div id="audioTitle" class="audio-title"></div>
+          <div class="audio-time"><span id="currentTime">0:00</span> / <span id="totalTime">0:00</span></div>
+        </div>
+      </div>
+      <div class="progress-track" id="progressBar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="transcript-box" id="transcript">Select a sample call above to begin...</div>
+    
+    <!-- Analytics Dashboard - Moved to left panel -->
+    <div id="analyticsDashboard" class="analytics-dashboard hidden">
+      <div class="dashboard-content">
+        <div class="dashboard-header">
+          <h3 class="dashboard-title">📊 Analytics & Risk</h3>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Quick Stats -->
+          <div class="dashboard-card quick-stats">
+            <div class="stat-item">
+              <div class="stat-icon">📝</div>
+              <div class="stat-content">
+                <div class="stat-value" id="statFields">0</div>
+                <div class="stat-label">Fields Extracted</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <div class="stat-value" id="statConfidence">0%</div>
+                <div class="stat-label">Avg Confidence</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">⚡</div>
+              <div class="stat-content">
+                <div class="stat-value" id="statTime">0ms</div>
+                <div class="stat-label">Processing Time</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Risk Score Gauge -->
+          <div class="dashboard-card risk-gauge-card">
+            <h4 class="card-title">Overall Risk Score</h4>
+            <div class="gauge-container">
+              <canvas id="riskGauge" width="200" height="100"></canvas>
+            </div>
+            <div class="risk-level-badge" id="riskLevelBadge">CALCULATING...</div>
+          </div>
+          
+          <!-- Risk Category Breakdown -->
+          <div class="dashboard-card risk-categories">
+            <h4 class="card-title">Risk Categories</h4>
+            <div class="category-bars">
+              <div class="category-item">
+                <div class="category-label">
+                  <span class="category-dot critical-dot"></span>
+                  <span>Critical</span>
+                </div>
+                <div class="category-bar">
+                  <div class="category-fill critical-fill" id="criticalBar" style="width: 0%"></div>
+                </div>
+                <div class="category-count" id="criticalCount">0</div>
+              </div>
+              <div class="category-item">
+                <div class="category-label">
+                  <span class="category-dot high-dot"></span>
+                  <span>High</span>
+                </div>
+                <div class="category-bar">
+                  <div class="category-fill high-fill" id="highBar" style="width: 0%"></div>
+                </div>
+                <div class="category-count" id="highCount">0</div>
+              </div>
+              <div class="category-item">
+                <div class="category-label">
+                  <span class="category-dot medium-dot"></span>
+                  <span>Medium</span>
+                </div>
+                <div class="category-bar">
+                  <div class="category-fill medium-fill" id="mediumBar" style="width: 0%"></div>
+                </div>
+                <div class="category-count" id="mediumCount">0</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Risk Indicators with Confidence -->
+          <div class="dashboard-card risk-indicators-card">
+            <h4 class="card-title">Risk Indicators</h4>
+            <div id="riskIndicatorsList" class="risk-indicators-list">
+              <div class="no-risks">✓ No risks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn btn-primary" id="processBtn">🤖 Process with AI</button>
+      <button class="btn btn-muted" id="clearBtn">Clear</button>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="panel panel-right">
+    <div class="panel-header">
+      <h2 class="panel-title">
+        <span class="panel-title-icon icon-form">📋</span> Case Management Form
+      </h2>
+      <span id="extractedBadge" class="status-badge badge-extracted" style="display:none">EXTRACTED</span>
+    </div>
+    <div class="form-area" id="formArea">
+      <div class="form-placeholder">
+        <div class="form-placeholder-children">🧒👧👦</div>
+        <div>👆 Process a call transcript to see AI-assisted form filling</div>
+      </div>
+    </div>
+    
+    
+    <div class="action-buttons" id="actionButtons">
+      <button class="btn btn-success" id="acceptAllBtn">✓ Accept All Suggestions</button>
+      <button class="btn btn-primary" id="saveBtn">💾 Save Case</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = "http://localhost:8000";
+
+let samples = [];
+let currentSample = null;
+let formSchema = null;
+let extraction = null;
+let isPlaying = false;
+let audioInterval = null;
+let charIndex = 0;
+let progressVal = 0;
+let acceptedAll = false;
+
+const $ = id => document.getElementById(id);
+
+function formatTime(s) { return Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0'); }
+
+// Init
+async function init() {
+  try {
+    const [schemaRes, samplesRes] = await Promise.all([
+      fetch(`${API_BASE}/schema`), fetch(`${API_BASE}/samples`)
+    ]);
+    formSchema = await schemaRes.json();
+    const data = await samplesRes.json();
+    samples = data.samples || [];
+    const sel = $('sampleSelector');
+    samples.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.call_id;
+      opt.textContent = `${s.call_id} - ${s.risk_level} risk (${s.duration_seconds}s)`;
+      sel.appendChild(opt);
+    });
+  } catch(e) { console.error('Init error:', e); }
+}
+
+// Sample change
+$('sampleSelector').addEventListener('change', async function() {
+  const id = this.value;
+  clearAudio();
+  if (!id) { currentSample = null; $('audioPlayer').classList.add('hidden'); $('transcript').textContent = 'Select a sample call above to begin...'; return; }
+  try {
+    const res = await fetch(`${API_BASE}/samples/${id}`);
+    currentSample = await res.json();
+    $('audioPlayer').classList.remove('hidden');
+    $('audioTitle').textContent = `${currentSample.call_id} - ${currentSample.risk_level_actual} Risk`;
+    $('totalTime').textContent = formatTime(currentSample.duration_seconds);
+    $('currentTime').textContent = '0:00';
+    $('progressFill').style.width = '0%';
+    $('transcript').textContent = 'Press play to start the call...';
+    charIndex = 0; progressVal = 0; isPlaying = false; $('playBtn').textContent = '▶';
+  } catch(e) { console.error(e); }
+});
+
+function clearAudio() {
+  if (audioInterval) { clearInterval(audioInterval); audioInterval = null; }
+  isPlaying = false; if ($('playBtn')) $('playBtn').textContent = '▶';
+}
+
+// Play/Pause
+$('playBtn').addEventListener('click', function() {
+  if (!currentSample) return;
+  if (isPlaying) { clearAudio(); return; }
+  isPlaying = true; this.textContent = '⏸';
+  const t = currentSample.transcript;
+  const dur = currentSample.duration_seconds / 2;
+  const cps = t.length / dur;
+  const interval = 100;
+  const cpu = cps * interval / 1000;
+
+  audioInterval = setInterval(() => {
+    charIndex += cpu;
+    if (charIndex >= t.length) {
+      charIndex = t.length; clearAudio(); progressVal = 1;
+      $('progressFill').style.width = '100%';
+      $('transcript').textContent = t;
+      setTimeout(() => processWithAI(t), 500);
+      return;
+    }
+    progressVal = charIndex / t.length;
+    $('progressFill').style.width = (progressVal * 100) + '%';
+    $('currentTime').textContent = formatTime(progressVal * dur);
+    $('transcript').textContent = t.substring(0, Math.floor(charIndex));
+  }, interval);
+});
+
+// Seek
+$('progressBar').addEventListener('click', function(e) {
+  if (!currentSample) return;
+  const r = this.getBoundingClientRect();
+  const p = (e.clientX - r.left) / r.width;
+  progressVal = p;
+  charIndex = Math.floor(p * currentSample.transcript.length);
+  $('progressFill').style.width = (p * 100) + '%';
+  $('currentTime').textContent = formatTime(p * currentSample.duration_seconds);
+  $('transcript').textContent = currentSample.transcript.substring(0, Math.floor(charIndex));
+  if (isPlaying) { clearAudio(); $('playBtn').click(); }
+});
+
+// Process
+$('processBtn').addEventListener('click', () => processWithAI());
+
+async function processWithAI(transcriptOverride) {
+  const text = transcriptOverride || $('transcript').textContent;
+  if (!text || text.startsWith('Select') || text.startsWith('Press play')) return;
+
+  acceptedAll = false;
+  $('analyticsDashboard').classList.add('hidden');
+  $('extractedBadge').style.display = 'none';
+  $('actionButtons').classList.remove('visible');
+  $('formArea').innerHTML = '<div class="spinner-wrap"><div class="spinner"></div><p style="font-size:0.875rem">AI is analyzing the call...</p></div>';
+
+  try {
+    const res = await fetch(`${API_BASE}/extract`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ transcript: text, call_id: currentSample?.call_id || 'CALL_DEMO' })
+    });
+    if (!res.ok) throw new Error('Extraction failed');
+    extraction = await res.json();
+    renderExtraction();
+  } catch(e) {
+    console.error(e);
+    $('formArea').innerHTML = '<div class="form-placeholder">❌ Error processing. Is the backend running?</div>';
+  }
+}
+
+function renderExtraction() {
+  if (!extraction || !formSchema) return;
+
+  $('extractedBadge').style.display = '';
+
+  // Calculate stats
+  const vals = Object.values(extraction.extracted_data).filter(v => v && v !== '');
+  const scores = Object.values(extraction.confidence_scores);
+  const avg = scores.length ? Math.round(scores.reduce((a,b) => a+b, 0) / scores.length * 100) : 0;
+  
+  // Update quick stats
+  $('statFields').textContent = vals.length;
+  $('statConfidence').textContent = avg + '%';
+  $('statTime').textContent = extraction.processing_time_ms + 'ms';
+
+  // Calculate risk metrics
+  const risks = extraction.risk_flags || [];
+  const criticalCount = risks.filter(r => r.severity === 'critical').length;
+  const highCount = risks.filter(r => r.severity === 'high').length;
+  const mediumCount = risks.filter(r => r.severity === 'medium').length;
+  const totalRisks = criticalCount + highCount + mediumCount;
+  
+  // Calculate overall risk score (0-10)
+  const riskScore = totalRisks > 0 
+    ? Math.min(10, (criticalCount * 4 + highCount * 2.5 + mediumCount * 1) / Math.max(1, totalRisks) * 2.5)
+    : 0;
+  
+  // Determine risk level
+  let riskLevel = 'low';
+  if (riskScore >= 7) riskLevel = 'critical';
+  else if (riskScore >= 5) riskLevel = 'high';
+  else if (riskScore >= 3) riskLevel = 'medium';
+  
+  // Update risk level badge
+  const badge = $('riskLevelBadge');
+  badge.textContent = riskLevel.toUpperCase();
+  badge.className = 'risk-level-badge ' + riskLevel;
+  
+  // Update category bars
+  const maxCount = Math.max(criticalCount, highCount, mediumCount, 1);
+  $('criticalBar').style.width = (criticalCount / maxCount * 100) + '%';
+  $('highBar').style.width = (highCount / maxCount * 100) + '%';
+  $('mediumBar').style.width = (mediumCount / maxCount * 100) + '%';
+  $('criticalCount').textContent = criticalCount;
+  $('highCount').textContent = highCount;
+  $('mediumCount').textContent = mediumCount;
+  
+  // Render risk indicators list
+  const severityMap = {
+    critical: { icon:'🚨', cls:'critical' },
+    high: { icon:'⚠️', cls:'high' },
+    medium: { icon:'⚡', cls:'medium' }
+  };
+  
+  const indicatorsList = $('riskIndicatorsList');
+  if (risks.length === 0) {
+    indicatorsList.innerHTML = '<div class="no-risks">✓ No critical risks detected</div>';
+  } else {
+    indicatorsList.innerHTML = risks.map((r, idx) => {
+      const c = severityMap[r.severity] || severityMap.medium;
+      // Extract confidence from evidence or use default
+      const confidence = r.confidence || 85;
+      return `
+        <div class="risk-indicator-item ${c.cls}">
+          <div class="risk-indicator-icon">${c.icon}</div>
+          <div class="risk-indicator-content">
+            <div class="risk-indicator-title">${r.severity.toUpperCase()}: ${r.indicator}</div>
+            <div class="risk-indicator-action">${r.suggested_action}</div>
+          </div>
+          <div class="risk-indicator-confidence">
+            <div class="confidence-bar-mini">
+              <div class="confidence-fill-mini" style="width: ${confidence}%"></div>
+            </div>
+            <span class="confidence-percent">${confidence}%</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  // Prepare chart data
+  const ranges = { '90-100%': 0, '80-89%': 0, '70-79%': 0, '60-69%': 0, '<60%': 0 };
+  scores.forEach(score => {
+    const pct = score * 100;
+    if (pct >= 90) ranges['90-100%']++;
+    else if (pct >= 80) ranges['80-89%']++;
+    else if (pct >= 70) ranges['70-79%']++;
+    else if (pct >= 60) ranges['60-69%']++;
+    else ranges['<60%']++;
+  });
+  
+  // Show dashboard
+  $('analyticsDashboard').classList.remove('hidden');
+  
+  // Create charts after a short delay to ensure DOM is ready
+  setTimeout(() => {
+    try {
+      // Create Risk Gauge Chart
+      const gaugeCanvas = $('riskGauge');
+      if (gaugeCanvas) {
+        if (window.riskGaugeChart) window.riskGaugeChart.destroy();
+        
+        window.riskGaugeChart = new Chart(gaugeCanvas.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [riskScore, 10 - riskScore],
+              backgroundColor: [
+                riskLevel === 'critical' ? '#DC2626' :
+                riskLevel === 'high' ? '#EA580C' :
+                riskLevel === 'medium' ? '#EAB308' : '#10B981',
+                '#E5E7EB'
+              ],
+              borderWidth: 0,
+              circumference: 180,
+              rotation: 270
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '75%',
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false }
+            }
+          },
+          plugins: [{
+            id: 'gaugeText',
+            afterDraw: (chart) => {
+              const ctx = chart.ctx;
+              const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+              const centerY = chart.chartArea.bottom - 10;
+              ctx.save();
+              ctx.font = 'bold 28px Nunito';
+              ctx.fillStyle = chart.data.datasets[0].backgroundColor[0];
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(riskScore.toFixed(1), centerX, centerY);
+              ctx.font = 'bold 12px Nunito';
+              ctx.fillStyle = '#6B7280';
+              ctx.fillText('/ 10', centerX + 30, centerY);
+              ctx.restore();
+            }
+          }]
+        });
+      }
+      
+      // Create Confidence Distribution Chart
+      const confCanvas = $('confidenceChart');
+      if (confCanvas) {
+        if (window.confidenceChart) window.confidenceChart.destroy();
+        
+        window.confidenceChart = new Chart(confCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(ranges),
+            datasets: [{
+              label: 'Fields',
+              data: Object.values(ranges),
+              backgroundColor: [
+                'rgba(16, 185, 129, 0.8)',
+                'rgba(59, 130, 246, 0.8)',
+                'rgba(139, 92, 246, 0.8)',
+                'rgba(234, 179, 8, 0.8)',
+                'rgba(239, 68, 68, 0.8)'
+              ],
+              borderColor: [
+                '#10B981',
+                '#3B82F6',
+                '#8B5CF6',
+                '#EAB308',
+                '#EF4444'
+              ],
+              borderWidth: 2,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (context) => `${context.parsed.y} fields`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { 
+                  stepSize: 1,
+                  font: { family: 'Nunito', size: 10 }
+                },
+                grid: { color: 'rgba(0,0,0,0.05)' }
+              },
+              x: {
+                ticks: { font: { family: 'Nunito', size: 10 } },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Chart error:', e);
+    }
+  }, 200);
+
+  // Group fields
+  const groups = {};
+  formSchema.fields.forEach(f => { if (!groups[f.category]) groups[f.category] = []; groups[f.category].push(f); });
+
+  // Define custom order - Demographics LAST, Case Management FIRST
+  const categoryOrder = [
+    'case_management',      // 1. Case Management (was 4)
+    'incident_details',     // 2. Incident Details (was 3)
+    'risk_assessment',      // 3. Risk Assessment (stays 3)
+    'support_needs',        // 4. Support Needs (stays)
+    'demographics'          // 5. Demographics (was 1, now LAST)
+  ];
+  
+  // Sort categories according to custom order
+  const sortedCategories = categoryOrder
+    .filter(cat => groups[cat])  // Only include categories that exist
+    .map(cat => [cat, groups[cat]]);
+
+  let html = '';
+  sortedCategories.forEach(([cat, fields]) => {
+    // Format category name: replace underscores, capitalize words
+    const categoryName = cat 
+      ? cat.replace(/_/g, ' ')
+           .split(' ')
+           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+           .join(' ')
+      : 'Form Fields';
+    
+    html += `<div class="form-group"><div class="form-category-title">${categoryName}</div>`;
+    fields.forEach(f => {
+      const val = extraction.extracted_data[f.field_id] || '';
+      const ev = extraction.evidence?.[f.field_id];
+      const cls = val ? 'suggested' : '';
+      let input = '';
+      if (f.type === 'select') {
+        input = `<select class="field-select ${cls}" data-field="${f.field_id}"><option value="">-- Select --</option>${(f.options||[]).map(o => `<option value="${o}" ${o===val?'selected':''}>${o}</option>`).join('')}</select>`;
+      } else if (f.type === 'textarea') {
+        input = `<textarea class="field-textarea ${cls}" data-field="${f.field_id}">${Array.isArray(val)?val.join(', '):val}</textarea>`;
+      } else if (f.type === 'multi-select') {
+        const selected = Array.isArray(val) ? val : [];
+        input = `<select multiple class="field-select ${cls}" data-field="${f.field_id}" style="min-height:70px">${(f.options||[]).map(o => `<option value="${o}" ${selected.includes(o)?'selected':''}>${o}</option>`).join('')}</select>`;
+      } else {
+        input = `<input type="${f.type||'text'}" class="field-input ${cls}" data-field="${f.field_id}" value="${Array.isArray(val)?val.join(', '):val}">`;
+      }
+      let evHtml = '';
+      if (ev && ev.quote && ev.confidence > 0) {
+        evHtml = `<span class="evidence-icon">💡</span><div class="evidence-tooltip"><strong>Evidence:</strong><p class="quote" style="font-style:italic">"${ev.quote}"</p><p><strong>Confidence:</strong> ${(ev.confidence*100).toFixed(0)}%</p></div>`;
+      }
+      const fieldLabel = f.label || f.field_id.replace(/_/g, ' ');
+      html += `<div class="field"><label class="field-label">${fieldLabel}${f.required?'<span class="required">*</span>':''}</label><div class="field-input-wrap">${input}${evHtml}</div></div>`;
+    });
+    html += '</div>';
+  });
+  $('formArea').innerHTML = html;
+  $('actionButtons').classList.add('visible');
+}
+
+
+// Accept All
+$('acceptAllBtn').addEventListener('click', function() {
+  acceptedAll = true;
+  document.querySelectorAll('.suggested').forEach(el => { el.classList.remove('suggested'); el.classList.add('accepted'); });
+  this.textContent = '✓ Accepted!';
+  setTimeout(() => { this.textContent = '✓ Accept All Suggestions'; }, 1200);
+});
+
+// Save
+$('saveBtn').addEventListener('click', () => {
+  const data = {};
+  document.querySelectorAll('[data-field]').forEach(el => { data[el.dataset.field] = el.value; });
+  console.log('Case data:', data);
+  alert('Case saved successfully! (In production, this would save to OpenCHS database)');
+});
+
+// Clear
+$('clearBtn').addEventListener('click', () => {
+  clearAudio(); currentSample = null; extraction = null; acceptedAll = false;
+  $('sampleSelector').value = '';
+  $('audioPlayer').classList.add('hidden');
+  $('transcript').textContent = 'Select a sample call above to begin...';
+  $('analyticsDashboard').classList.add('hidden');
+  $('extractedBadge').style.display = 'none';
+  $('formArea').innerHTML = '<div class="form-placeholder"><div class="form-placeholder-children">🧒👧👦</div><div>👆 Process a call transcript to see AI-assisted form filling</div></div>';
+  $('actionButtons').classList.remove('visible');
+  progressVal = 0; charIndex = 0;
+});
+
+init();
+</script>
+</body>
+</html>
