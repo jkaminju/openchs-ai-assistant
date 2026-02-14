@@ -327,7 +327,7 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 
 ## 📞 Contact
 
-**Joyce Kaminju** - jkaminju@gmail.com / james.nganga@bitz-itc.com
+**James Kaminju** - jkaminju@gmail.com / james.nganga@bitz-itc.com
 
 Serving children and families across Africa
 
