@@ -50,15 +50,33 @@ Call centers handling child abuse and GBV cases face critical challenges:
 - ⚠️ **Risk Detection**: Flags suicidal ideation, immediate danger, child abuse, threats
 - ✅ **Human-in-Loop**: AI suggests, counselor reviews, one-click accept
 
-### Key Features
+---
 
-| Feature | Description |
-|---------|-------------|
-| **Real-time Transcription** | Speech-to-text conversion of counselor-survivor conversations |
-| **Structured Extraction** | Automatically populates demographics, incident details, risk assessment, support needs |
-| **Risk Flagging** | Instant alerts for critical cases (suicidal ideation, immediate danger, child abuse) |
-| **Evidence Citations** | Every extracted field includes source quote and timestamp |
-| **Form Auto-Fill** | Suggests values with yellow highlights for counselor review |
+## 📸 Screenshots
+
+### Demo Interface Overview
+![Demo Interface](screenshot1.png)
+*OpenCHS AI Assistant showing the Bitz branding, 116 Child Helpline badge, and partnership indicators for 5 countries and 4 partner organizations*
+
+### Auto-Filled Case Management Form
+![Auto-filled form](screenshot2.png)
+*AI automatically extracts 19 fields from the call transcript with yellow highlights indicating AI-suggested values for counselor review*
+
+### Evidence-Based Citations
+![Evidence tooltip](screenshot3.png)
+*Every extracted field includes evidence citations showing the exact quote from the transcript and confidence score*
+
+### Critical Risk Detection
+![Risk alerts](screenshot4.png)
+*The system automatically flags high-risk indicators including suicidal ideation, immediate physical danger, and threats of violence with confidence scores*
+
+### Real-Time Analytics Dashboard
+![Analytics dashboard](screenshot5.png)
+*Comprehensive analytics showing extraction confidence, risk levels, processing time, and category distribution*
+
+### Complete Workflow Demo
+![Full workflow](screenshot6.png)
+*End-to-end demonstration of the call processing workflow from transcript to completed case documentation*
 
 ---
 
@@ -278,7 +296,7 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 
 ## 👥 Team
 
-**Developer**: James Kaminju  
+**Developer**: Joyce Kaminju  
 **Institution**: University of Washington - MSIS Program  
 **Course**: MSIS 549 - Generative AI & Agentic Systems  
 **Quarter**: Winter 2026
@@ -287,24 +305,20 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 
 ## 🙏 Acknowledgments
 
-- **Prof. Leo** - 549 Machine Learning Professor for support and knowledge dissemination - Amazing knowledge transfer skills**
-- **UW MSIS Faculty** - Project guidance and support
 - **UNICEF ESARO** - Regional partnership and deployment support
 - **UNICEF Venture Fund** - Innovation funding and mentorship
 - **UNFPA** - GBV prevention expertise
 - **GIZ** - Technical implementation support
 - **OpenCHS Team** - Platform and infrastructure
-
+- **UW MSIS Faculty** - Project guidance and support
 
 ---
 
 ## 📞 Contact
 
-For project inquiries: []
+**116 Child Helpline** - Serving children and families across Africa
 
-**James Kaminju - jkaminju@gmail.com / james.nganga@bitz-itc.com** - Serving children and families across Africa
-
-
+For project inquiries: [Your contact information]
 
 ---
 

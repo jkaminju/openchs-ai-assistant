@@ -1,4 +1,9 @@
 """
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 OpenCHS AI Assistant - Backend API
 Handles call transcription processing and structured information extraction
 """
@@ -251,7 +256,7 @@ def call_claude_api(transcript: str) -> Dict[str, Any]:
         return simulate_extraction(transcript)
 
 
-@app.get("/")
+@app.get("/health")
 async def root():
     """Health check endpoint"""
     return {
@@ -357,7 +362,16 @@ async def get_sample_transcript(call_id: str):
     
     raise HTTPException(status_code=404, detail="Sample not found")
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
+# Serve static files (CSS, JS, images)
+app.mount("/static", StaticFiles(directory="../frontend"), name="static")
+
+# Serve the main HTML page at root
+@app.get("/")
+async def serve_frontend():
+    return FileResponse("../frontend/index.html")
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
