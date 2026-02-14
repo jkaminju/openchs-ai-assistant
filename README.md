@@ -62,6 +62,34 @@ Call centers handling child abuse and GBV cases face critical challenges:
 
 ---
 
+## 📸 Screenshots
+
+### Demo Interface Overview
+![Demo Interface](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot1.png?raw=true)
+*OpenCHS AI Assistant showing the Bitz branding, 116 Child Helpline badge, and partnership indicators for 5 countries and 4 partner organizations*
+
+### Auto-Filled Case Management Form
+![Auto-filled form](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot2.png?raw=true)
+*AI automatically extracts 19 fields from the call transcript with yellow highlights indicating AI-suggested values for counselor review*
+
+### Evidence-Based Citations
+![Evidence tooltip](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot3.png?raw=true)
+*Every extracted field includes evidence citations showing the exact quote from the transcript and confidence score*
+
+### Critical Risk Detection
+![Risk alerts](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot4.png?raw=true)
+*The system automatically flags high-risk indicators including suicidal ideation, immediate physical danger, and threats of violence with confidence scores*
+
+### Real-Time Analytics Dashboard
+![Analytics dashboard](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot5.png?raw=true)
+*Comprehensive analytics showing extraction confidence, risk levels, processing time, and category distribution*
+
+### Complete Workflow Demo
+![Full workflow](https://github.com/jkaminju/openchs-ai-assistant/blob/master/screenshot6.png?raw=true)
+*End-to-end demonstration of the call processing workflow from transcript to completed case documentation*
+
+---
+
 ## 🛠️ Technology Stack
 
 ### Phase 1 MVP
@@ -278,7 +306,7 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 
 ## 👥 Team
 
-**Developer**: James Kaminju  
+**Developer**: Joyce Kaminju  
 **Institution**: University of Washington - MSIS Program  
 **Course**: MSIS 549 - Generative AI & Agentic Systems  
 **Quarter**: Winter 2026
@@ -287,7 +315,7 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 
 ## 🙏 Acknowledgments
 
-- **Prof. Leo** - 549 Machine Learning Professor for support and knowledge dissemination - Amazing knowledge transfer skills**
+- **Prof. Leo** - 549 Machine Learning Professor for support and knowledge dissemination - Amazing knowledge transfer skills
 - **UW MSIS Faculty** - Project guidance and support
 - **UNICEF ESARO** - Regional partnership and deployment support
 - **UNICEF Venture Fund** - Innovation funding and mentorship
@@ -295,16 +323,13 @@ This project is part of ongoing humanitarian work. Contact the OpenCHS team for 
 - **GIZ** - Technical implementation support
 - **OpenCHS Team** - Platform and infrastructure
 
-
 ---
 
 ## 📞 Contact
 
-For project inquiries: []
+**Joyce Kaminju** - jkaminju@gmail.com / james.nganga@bitz-itc.com
 
-**James Kaminju - jkaminju@gmail.com / james.nganga@bitz-itc.com** - Serving children and families across Africa
-
-
+Serving children and families across Africa
 
 ---
 
